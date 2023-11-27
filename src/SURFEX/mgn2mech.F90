@@ -141,9 +141,9 @@ ZOUTER = 0.
 INO = INDEX1('NO',CMGN_SPC)
 
 !...  LOOP THROUGH TIME
-DO JS = 1, N_SMAP_SPC 
+DO JS = 1, N_SMAP_SPC !! =150
 
-  JMPMG = NMG20_MAP(JS)  
+  JMPMG = NMG20_MAP(JS) 
   JMPSP = NSPCA_MAP(JS)  
 !          PRINT*,'CONVERT '//MGN_SPC(NMPMG)//' TO '//SPCA_SPC(NMPSP)
 
@@ -156,7 +156,7 @@ DO JS = 1, N_SMAP_SPC
       ZTMP2(:) = 0.
       DO JM = 1,N_MGN_PFT !! =16
         ZTMP1 = ZTMP1 + PPFT(JM,:) 
-        ZTMP2 = ZTMP2 + XEFFS_ALL(JM,JMPSP) * PPFT(JM,:)
+        ZTMP2 = ZTMP2 + XEFFS_ALL(JM,JMPSP) * PPFT(JM,:) 
       ENDDO
       WHERE( ZTMP1(:).EQ.0. ) 
         ZTMPER(JMPSP,:) = 0.
