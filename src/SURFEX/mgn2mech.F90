@@ -143,36 +143,36 @@ INO = INDEX1('NO',CMGN_SPC)
 !...  LOOP THROUGH TIME
 DO JS = 1, N_SMAP_SPC !! =150
 
-  JMPMG = NMG20_MAP(JS)  !! la classe de l'espèce JS
-  JMPSP = NSPCA_MAP(JS)  !! l'indice de l'espèce de 1:150
+  JMPMG = NMG20_MAP(JS) 
+  JMPSP = NSPCA_MAP(JS)  
 !          PRINT*,'CONVERT '//MGN_SPC(NMPMG)//' TO '//SPCA_SPC(NMPSP)
 
-  IF ( JMPMG.NE.INO ) THEN !! si la classe n'est pas NO
+  IF ( JMPMG.NE.INO ) THEN 
 
     !...  NOT NO
-    IF ( XEF_ALL(1,JMPMG).LT.0. ) THEN !! si la valeur est inférieur à 0 cela signifie que la classe a une carte de facteur d'activité
+    IF ( XEF_ALL(1,JMPMG).LT.0. ) THEN 
       !... USE EFMAPS
       ZTMP1(:) = 0.
       ZTMP2(:) = 0.
       DO JM = 1,N_MGN_PFT !! =16
         ZTMP1 = ZTMP1 + PPFT(JM,:) 
-        ZTMP2 = ZTMP2 + XEFFS_ALL(JM,JMPSP) * PPFT(JM,:) !! facteurs pour faire la conversion (je pense)
+        ZTMP2 = ZTMP2 + XEFFS_ALL(JM,JMPSP) * PPFT(JM,:) 
       ENDDO
-      WHERE( ZTMP1(:).EQ.0. ) !!si y'a pas de PFT y'aura pas d'émission
+      WHERE( ZTMP1(:).EQ.0. ) 
         ZTMPER(JMPSP,:) = 0.
       ELSEWHERE
-        ZTMPER(JMPSP,:) = PCFSPEC(JMPMG,:) * PEF(JMPMG,:) * ZTMP2(:)/ZTMP1(:)  !! PEF c'est le facteur d'émission
+        ZTMPER(JMPSP,:) = PCFSPEC(JMPMG,:) * PEF(JMPMG,:) * ZTMP2(:)/ZTMP1(:)  
       ENDWHERE    
     ELSE
 
      
 
-      !... USE PFT-EF !!les deux manières de calcul sont importantes: y as que 10 classes avec fichiers EF
+      !... USE PFT-EF 
       ZTMP3(:) = 0.0
       ZTMP4(:) = 0.0
       DO JM = 1,N_MGN_PFT 
         ZTMP4 = ZTMP4 + PPFT(JM,:)
-        ZTMP3 = ZTMP3 + XEF_ALL(JM,JMPMG) * XEFFS_ALL(JM,JMPSP) * PPFT(JM,:)  !!La dévision par 100 reviens au fait que les cartes dans megan sont en pourcentage
+        ZTMP3 = ZTMP3 + XEF_ALL(JM,JMPMG) * XEFFS_ALL(JM,JMPSP) * PPFT(JM,:)  
       ENDDO
       WHERE( ZTMP4(:).EQ.0. )
         ZTMPER(JMPSP,:) = 0.
